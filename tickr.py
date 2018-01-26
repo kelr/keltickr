@@ -11,7 +11,6 @@ class Data():
         self.public_client = gdax.PublicClient()
 
     def get_tick(self):
-        print("hi")
         return self.public_client.get_product_ticker(product_id="ETH-USD")["price"]
 
 class View(Frame):
@@ -24,11 +23,18 @@ class View(Frame):
 
     def create_window(self):
         self.data = Data()
-        self.price = StringVar()
+        self.price = IntVar()
+        self.current = IntVar()
 
         display = Message(self.master, textvariable=self.price)
         display.grid(row=2, column=1)
         display.pack()
+
+        display_3 = Message(self.master, textvariable=self.current*self.price)
+        display_3.pack()
+
+        display2 = Entry(self.master, textvariable=self.current)       
+        display2.pack()
 
         self.update_thread = Thread(target=self.update_price)
         self.update_thread.start()
