@@ -29,20 +29,21 @@ class View(Frame):
 
         eth = Label(self.master, text="ETH-USD Last Price:")
         eth.pack()
-        lel2 = Label(self.master, text="")
-        lel2.pack()
 
         display = Label(self.master, textvariable=self.price)
         display.pack()
 
+        lel2 = Label(self.master, text="")
+        lel2.pack()
+
         lel = Label(self.master, text="Held Volume:")
         lel.pack()
 
-        lel3 = Label(self.master, text="")
-        lel3.pack()
-
         display_3 = Label(self.master, textvariable=self.final)
         display_3.pack()
+
+        lel3 = Label(self.master, text="")
+        lel3.pack()
 
         display2 = Entry(self.master, textvariable=self.current)       
         display2.pack()
