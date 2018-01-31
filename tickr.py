@@ -1,5 +1,6 @@
 import gdax
 import time
+import tkinter
 from tkinter import *
 from threading import Thread
 import time
@@ -27,7 +28,7 @@ class View(Frame):
         self.current = DoubleVar()
         self.final = DoubleVar()
 
-        eth = Label(self.master, text="ETH-USD Last Price:")
+        eth = Label(self.master, text="ETH-USD Last Trade Price:")
         eth.pack()
 
         display = Label(self.master, textvariable=self.price)
@@ -36,7 +37,7 @@ class View(Frame):
         lel2 = Label(self.master, text="")
         lel2.pack()
 
-        lel = Label(self.master, text="Held Volume:")
+        lel = Label(self.master, text="Current Holding Value (USD):")
         lel.pack()
 
         display_3 = Label(self.master, textvariable=self.final)
@@ -45,28 +46,35 @@ class View(Frame):
         lel3 = Label(self.master, text="")
         lel3.pack()
 
+        lel4 = Label(self.master, text="Enter current holding volume:")
+        lel4.pack()
+
         display2 = Entry(self.master, textvariable=self.current)       
         display2.pack()
 
-        button = Button(self.master, text="Confirm", command=self.update_volume)
-        button.pack()
-
         self.update_thread = Thread(target=self.update_price)
         self.update_thread.start()
+
+        self.volume_thread = Thread(target=self.update_volume_t)
+        self.volume_thread.start()
 
     def update_price(self):
         while(1):
             self.price.set(self.data.get_tick())
             time.sleep(0.1)
 
-    def update_volume(self):
-        self.final.set(self.price.get() * self.current.get())
+    def update_volume_t(self):
 
+        while(1):
+            try:
+                self.final.set(self.price.get() * self.current.get())
+                time.sleep(0.1)
+            except tkinter.TclError:
+                pass
 
 
 root = Tk()
 root.geometry("200x200")
 app = View(root)
+
 root.mainloop()
-
-
